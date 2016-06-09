@@ -1,0 +1,4 @@
+11:30, June 9: reformatted anisha's notes
+1:30, June 9: can now loop thru lesion coordinates and give equivalent segmentation coordinates, and takes average correctly from all equivalent coordinates
+1:35, June 9: last checkpoint before 1) determining if infratentorial and 2) looping for all mse
+1:45, June 9: last checkpoint before moving repositories
