@@ -51,7 +51,7 @@ elif args.filename == "no_file_chosen":
 else:
     msetxt = valid_file(parser,args.filename)
     subjects_txt = np.genfromtxt(msetxt, dtype=str)
-    subjects = subjects_txt[0:2]
+    subjects = subjects_txt
 
 import nibabel as nib
 import glob
