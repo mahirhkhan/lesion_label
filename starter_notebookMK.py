@@ -343,34 +343,19 @@ for numsubjects in range(len(subjects)):
         elif les_type[count] == "periventricular":
             per_count += 1
     for count in range(len(lesions)):
-        if count == 0:
-            all_sub_results["mseID"].append(subjects[numsubjects])
-            all_sub_results["total number of lesions"].append(len(lesions))
-            all_sub_results["subcortical lesions"].append(sub_count)
-            all_sub_results["juxtacortical lesions"].append(jux_count)
-            all_sub_results["periventricular lesions"].append(per_count)
-            all_sub_results["infratentorial lesions"].append(inf_count)
-            all_sub_results["lesion"].append(count+1)
-            all_sub_results["type"].append(les_type[count])
-            all_sub_results["center coordinates"].append(str(les_averages[count]))
-            all_sub_results["volume"].append(len(lesions[count]))
-            all_sub_results["distance from midbrain"].append(dis_mb[count])
-            all_sub_results["distance from ventricles"].append(dis_v[count])
-            all_sub_results["distance from gray matter"].append(dis_gm[count])
-        else:
-            all_sub_results["mseID"].append("")
-            all_sub_results["total number of lesions"].append("")
-            all_sub_results["subcortical lesions"].append("")
-            all_sub_results["juxtacortical lesions"].append("")
-            all_sub_results["periventricular lesions"].append("")
-            all_sub_results["infratentorial lesions"].append("")
-            all_sub_results["lesion"].append(count+1)
-            all_sub_results["type"].append(les_type[count])
-            all_sub_results["center coordinates"].append(str(les_averages[count]))
-            all_sub_results["volume"].append(len(lesions[count]))
-            all_sub_results["distance from midbrain"].append(dis_mb[count])
-            all_sub_results["distance from ventricles"].append(dis_v[count])
-            all_sub_results["distance from gray matter"].append(dis_gm[count])
+        all_sub_results["mseID"].append(subjects[numsubjects])
+        all_sub_results["total number of lesions"].append(len(lesions))
+        all_sub_results["subcortical lesions"].append(sub_count)
+        all_sub_results["juxtacortical lesions"].append(jux_count)
+        all_sub_results["periventricular lesions"].append(per_count)
+        all_sub_results["infratentorial lesions"].append(inf_count)
+        all_sub_results["lesion"].append(count+1)
+        all_sub_results["type"].append(les_type[count])
+        all_sub_results["center coordinates"].append(str(les_averages[count]))
+        all_sub_results["volume"].append(len(lesions[count]))
+        all_sub_results["distance from midbrain"].append(dis_mb[count])
+        all_sub_results["distance from ventricles"].append(dis_v[count])
+        all_sub_results["distance from gray matter"].append(dis_gm[count])
     print subjects[numsubjects], "data input complete."; print
 
 ## convert to csv file
