@@ -42,16 +42,16 @@ args = parser.parse_args()
 decval = args.dec #number of decimals to round to
 
 if args.mseID == []:
-    raise parser.error("No mseIDs inputted")
+    if args.filename == "no_file_chosen":
+        raise parser.error("No mseIDs inputted")
+    else:
+        msetxt = valid_file(parser,args.filename)
+        subjects_txt = np.genfromtxt(msetxt, dtype=str)
+        subjects = subjects_txt
 elif args.mseID != []:
     subjects_man = args.mseID
     subjects = subjects_man
-elif args.filename == "no_file_chosen":
-    raise parser.error("No mseIDs inputted")
-else:
-    msetxt = valid_file(parser,args.filename)
-    subjects_txt = np.genfromtxt(msetxt, dtype=str)
-    subjects = subjects_txt
+
 
 import nibabel as nib
 import glob
