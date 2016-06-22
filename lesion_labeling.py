@@ -149,22 +149,38 @@ all_sub_results = {"mseID":[],
                    "distance from midbrain":[],
                    "distance from ventricles":[],
                    "distance from gray matter":[]}
+problems = []
 
 ## Begin Program
 
 for numsubjects in range(len(subjects)):
 
-    ## Set variables to lesion/segmentation files, freeview cmdline copy and paste
-    print "Preparing", subjects[numsubjects]
+    ## Set variables to lesion/segmentation files, freeview cmdline copy and paste, makes sure segmentations exist before proceeding through rest of program
+    print "Preparing", subjects[numsubjects];print
     
-    for les_file in glob.glob("/data/henry7/PBR/subjects/%s/lesions_manual/*/alignment_lesions.nii.gz" % subjects[numsubjects]):
-        les_file
-    for seg_file in glob.glob("/data/henry7/PBR/subjects/%s/masks/*/segmentation.nii.gz" % subjects[numsubjects]):
-        seg_file
-    for gm_file in glob.glob("/data/henry6/PBR/surfaces/*%s*/mri/ribbon.mgz" % subjects[numsubjects]):
-        gm_file
-
-    print; print "Freeview link:"; print 
+    les_src = glob.glob("/data/henry7/PBR/subjects/%s/lesions_manual/*/alignment_lesions.nii.gz" % subjects[numsubjects])
+    if len(les_src) != 0:
+        les_file = les_src[0]
+    else:
+        print "Could not find lesion segmentation file, skipping %s" % subjects[numsubjects]; print
+        problems.append(subjects[numsubjects])
+        continue
+    seg_src = glob.glob("/data/henry7/PBR/subjects/%s/masks/*/segmentation.nii.gz" % subjects[numsubjects])
+    if len(seg_src) != 0:
+        seg_file = seg_src[0]
+    else:
+        print "Could not find brain segmentation file, skipping %s" % subjects[numsubjects]; print
+        problems.append(subjects[numsubjects])
+        continue
+    gm_src = glob.glob("/data/henry6/PBR/surfaces/*%s*/mri/ribbon.mgz" % subjects[numsubjects])
+    if len(gm_src) != 0:
+        gm_file = gm_src[0]
+    else:
+        print "Could not find gray matter segmentation file, skipping %s" % subjects[numsubjects]; print
+        problems.append(subjects[numsubjects])
+        continue
+        
+    print "Freeview link:"; print 
     print "freeview", gm_file, seg_file, les_file; print
 
     ## Obtain affines 
@@ -373,8 +389,10 @@ sub_results = pd.DataFrame(all_sub_results,columns=["mseID",
                                                     "distance from midbrain",
                                                     "distance from ventricles",
                                                     "distance from gray matter"])
-sub_results.to_csv('/home/mkhan/lesion_info.csv')
+sub_results.to_csv('/home/mkhan/tmp_lesion_info.csv')
 print sub_results; print
+for x in range(len(problems)):
+    print[problems[x]]
 
 
 # In[ ]:
