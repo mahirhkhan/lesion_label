@@ -162,9 +162,13 @@ for numsubjects in range(len(subjects)):
     if len(les_src) != 0:
         les_file = les_src[0]
     else:
-        print "Could not find lesion segmentation file, skipping %s" % subjects[numsubjects]; print
-        problems.append(subjects[numsubjects])
-        continue
+        les_src = glob.glob("/data/henry7/PBR/subjects/%s/lesions_manual/*/*lesions.nii.gz" % subjects[numsubjects])
+        if len(les_src) != 0:
+            les_file = les_src[0]
+        else:
+            print "Could not find lesion segmentation file, skipping %s" % subjects[numsubjects]; print
+            problems.append(subjects[numsubjects])
+            continue
     seg_src = glob.glob("/data/henry7/PBR/subjects/%s/masks/*/segmentation.nii.gz" % subjects[numsubjects])
     if len(seg_src) != 0:
         seg_file = seg_src[0]
