@@ -161,14 +161,17 @@ for numsubjects in range(len(subjects)):
     les_src = glob.glob("/data/henry7/PBR/subjects/%s/lesions_manual/*/alignment_lesions.nii.gz" % subjects[numsubjects])
     if len(les_src) != 0:
         les_file = les_src[0]
+        les_label_num = 1
     else:
         les_src = glob.glob("/data/henry7/PBR/subjects/%s/lesions_manual/*/*lesions.nii.gz" % subjects[numsubjects])
         if len(les_src) != 0:
             les_file = les_src[0]
+            les_label_num = 1
         else:
             les_src = glob.glob("/data/henry6/PBR/surfaces/*%s*/mri/aseg.mgz" % subjects[numsubjects])
             if len(les_src) != 0:
                 les_file = les_src[0]
+                les_label_num = 77
             else:
                 print "Could not find lesion segmentation file, skipping %s" % subjects[numsubjects]; print
                 problems.append(subjects[numsubjects])
@@ -218,7 +221,7 @@ for numsubjects in range(len(subjects)):
     ## Set labels for structure's coordinates
 
     #lesion labels
-    les_labels, n_les_labels = label(les_data==[1])
+    les_labels, n_les_labels = label(les_data==les_label_num)
 
     #segmentation - brainstem labels
     seg_brainstem_labels, n_seg_brainstem_labels = label(seg_data==[16])
@@ -397,7 +400,7 @@ sub_results = pd.DataFrame(all_sub_results,columns=["mseID",
                                                     "distance from midbrain",
                                                     "distance from ventricles",
                                                     "distance from gray matter"])
-sub_results.to_csv('/data/henry1/tmp_lesion_info.csv')
+sub_results.to_csv('/data/henry1/mahamber/tmp_lesion_info.csv')
 print sub_results; print
 for x in range(len(problems)):
     print[problems[x]]
