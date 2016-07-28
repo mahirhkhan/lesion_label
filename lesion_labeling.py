@@ -71,7 +71,8 @@ def get_label_coord(labels,num_labels):
             for count2 in range(len(x)):
                 cur_coord = [x[count2],y[count2],z[count2]]
                 cur_label_coords.append(cur_coord)
-            all_label_coords.append(cur_label_coords)
+            if len(cur_label_coords) >= 3:
+                all_label_coords.append(cur_label_coords)
     else:
         x,y,z = np.nonzero(labels==1)
         for count in range(len(x)):
@@ -185,9 +186,13 @@ for numsubjects in range(len(subjects)):
     if len(seg_src) != 0:
         seg_file = seg_src[0]
     else:
-        print "Could not find brain segmentation file, skipping %s" % subjects[numsubjects]; print
-        problems.append(subjects[numsubjects])
-        continue
+        seg_src = glob.glob("/data/henry6/PBR/surfaces/*%s*/mri/aseg.mgz" % subjects[numsubjects])
+        if len(seg_src) != 0:
+            seg_file = seg_src[0]
+        else:
+            print "Could not find brain segmentation file, skipping %s" % subjects[numsubjects]; print
+            problems.append(subjects[numsubjects])
+            continue
     gm_src = glob.glob("/data/henry6/PBR/surfaces/*%s*/mri/ribbon.mgz" % subjects[numsubjects])
     if len(gm_src) != 0:
         gm_file = gm_src[0]
@@ -374,9 +379,9 @@ for numsubjects in range(len(subjects)):
             jux_count += 1
         elif les_type[count] == "periventricular":
             per_count += 1
-    for count in range(len(lesions)):
+    for count in range(len(les_type)):
         all_sub_results["mseID"].append(subjects[numsubjects])
-        all_sub_results["total number of lesions"].append(len(lesions))
+        all_sub_results["total number of lesions"].append(len(les_type))
         all_sub_results["subcortical lesions"].append(sub_count)
         all_sub_results["juxtacortical lesions"].append(jux_count)
         all_sub_results["periventricular lesions"].append(per_count)
